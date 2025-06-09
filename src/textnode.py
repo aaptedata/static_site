@@ -24,56 +24,19 @@ class TextNode():
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
     
-    def text_node_to_html_node(self):
-        match(self.text_type):
-            case(TextType.TEXT):
-                return LeafNode(None, self.text)
-            case(TextType.BOLD):
-                return LeafNode('b', self.text)
-            case(TextType.ITALIC):
-                return LeafNode('i', self.text)
-            case(TextType.CODE):
-                return LeafNode('code', self.text)
-            case(TextType.LINK):
-                return LeafNode('a', self.text, {"href": self.url})
-            case(TextType.IMAGE):
-                return LeafNode('img', None, {"src": "image_url", "alt": "alt_text"})
-            case _:
-                raise Exception("invalid type")
+def text_node_to_html_node(text_node):
+    match(text_node.text_type):
+        case(TextType.TEXT):
+            return LeafNode(None, text_node.text)
+        case(TextType.BOLD):
+            return LeafNode('b', text_node.text)
+        case(TextType.ITALIC):
+            return LeafNode('i', text_node.text)
+        case(TextType.CODE):
+            return LeafNode('code', text_node.text)
+        case(TextType.LINK):
+            return LeafNode('a', text_node.text, {"href": text_node.url})
+        case(TextType.IMAGE):
+            return LeafNode('img', "", {"src": text_node.url, "alt": text_node.text})
+    raise ValueError(f"invalid text type: {text_node.text_type}")
  
-    
-# class Bender(Enum):
-#     AIR_BENDER = "air"
-#     WATER_BENDER = "water"
-#     EARTH_BENDER = "earth"
-#     FIRE_BENDER = "fire"
-    
-# from enum import Enum
-
-# Doctype = Enum('Doctype', ['PDF', 'TXT', 'DOCX', 'MD', 'HTML'])
-
-# class DocFormat(Enum):
-#     PDF = 1
-#     TXT = 2
-#     MD = 3
-#     HTML = 4
-
-# def convert_format(content, from_format, to_format):
-#     match(from_format, to_format):
-#         case(DocFormat.MD, DocFormat.HTML):
-#             content = content.replace("# ", "<h1>")
-#             content = content + '</h1>'
-#             return content
-            
-#         case(DocFormat.TXT, DocFormat.PDF):
-#             content = "[PDF] " + content + " [PDF]"
-#             return content
-
-#         case(DocFormat.HTML, DocFormat.MD):
-#             content = content.replace("<h1>","# ")
-#             content = content.replace("</h1>",'')
-#             return content
-
-#         # default case
-#         case _:
-#             raise Exception("invalid type") 
